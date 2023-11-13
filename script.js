@@ -71,7 +71,8 @@ function generatePassword(settings)
   }
   while(counter<settings.length)
   {
-    password+=getAnyRandom()
+    let randomValue = getAnyRandom()
+    password+=randomValue
     counter++ 
   }
   //password+=getCapitalLetter()+getRandomSpecial()+getLowercaseLetter()+getRandomNumber()
@@ -125,22 +126,46 @@ function getRandomSpecial()
   return randomSpecial
 }
 
+const characterOptions = {
+  useLowercase: 1,
+  useUppercase: 2,
+  useNumeric: 3,
+  useSpecials: 4
+}
+
 function getAnyRandom()
 {
-  let option=getRandomInteger(1,4)
-  if (option==1)
+  let settings = getSettings();
+  let options = [];
+  if (settings.useLowercase)
+  {
+    options.push(characterOptions.useLowercase)
+  }
+  if(settings.useUppercase){
+    options.push(characterOptions.useUppercase)
+  }
+  if(settings.useNumeric){
+    options.push(characterOptions.useNumeric)
+  }
+  if(settings.useSpecials){
+    options.push(characterOptions.useSpecials)
+  }
+
+  let optionIndex=getRandomInteger(0,options.length-1)
+  let option=options[optionIndex]
+  if (option==characterOptions.useSpecials)
   {
     return getRandomSpecial()
   }
-  if (option==2)
+  if (option==characterOptions.useLowercase)
   {
     return getLowercaseLetter()
   }
-  if (option==3)
+  if (option==characterOptions.useNumeric)
   {
     return getRandomNumber()
   }
-  if (option==4)
+  if (option==characterOptions.useUppercase)
   {
     return getCapitalLetter()
   }
